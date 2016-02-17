@@ -1,5 +1,6 @@
 package com.example.minorius.pr_8;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.AsyncTaskLoader;
 import android.widget.Toast;
@@ -12,16 +13,21 @@ import com.firebase.client.ValueEventListener;
 
 public class Loader_fb extends AsyncTaskLoader<String> {
 
-    public Loader_fb(Context context) {
+    public static String KEY = "https://minorius.firebaseio.com/math/";
+
+    GS gs;
+
+    public Loader_fb(Context context, Bundle args) {
         super(context);
     }
+
 
     @Override
     public String loadInBackground() {
 
         return null;
-    }
 
+    }
 
 
 

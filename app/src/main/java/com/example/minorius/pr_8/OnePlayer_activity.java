@@ -41,8 +41,6 @@ public class OnePlayer_activity extends AppCompatActivity implements LoaderManag
     private ImageView back_4_v;
     private ImageView back_4_true;
 
-    public static String PATH = "https://minorius.firebaseio.com";
-    public static String CATEGORY = "/math/";
 
     public static String answer;
     public static String ans_a;
@@ -51,18 +49,24 @@ public class OnePlayer_activity extends AppCompatActivity implements LoaderManag
     public static String ans_d;
 
     Firebase fb;
-
     public static int key_r;
+
+    GS gs;
+
+    public static String PATH = "https://minorius.firebaseio.com";
+    public static String CATEGORY = "/math/";
 
     Bundle b;
     Loader<String> ls;
 
     public static final int LOADER_ID = 1;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_one_player);
+
 
         txt_question = (TextView) findViewById(R.id.txt_question);
 
@@ -87,14 +91,22 @@ public class OnePlayer_activity extends AppCompatActivity implements LoaderManag
 
         Random r = new Random();
         key_r = r.nextInt(4);
-        
+
         Firebase.setAndroidContext(getApplicationContext());
-        fb = new Firebase(PATH+CATEGORY+""+key_r);
+        Firebase fb = new Firebase(PATH+CATEGORY);
 
-        fb.child("question").addValueEventListener(new ValueEventListener() {
+
+        gs = new GS();
+
+        fb.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                txt_question.setText(dataSnapshot.getValue().toString());
+                gs = new GS();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    gs = postSnapshot.getValue(GS.class);
+                    postSnapshot.getChildrenCount();
+                    Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -102,137 +114,144 @@ public class OnePlayer_activity extends AppCompatActivity implements LoaderManag
 
             }
         });
-        fb.child("answer").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                answer = dataSnapshot.getValue().toString();
-            }
 
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
 
-            }
-        });
-        fb.child("a").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ans_a = dataSnapshot.getValue().toString();
-                txt_answer_a.setText(ans_a);
-            }
 
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
+//        fb.child("question").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                txt_question.setText(dataSnapshot.getValue().toString());
+//            }
+//
+//            @Override
+//            public void onCancelled(FirebaseError firebaseError) {
+//
+//            }
+//        });
+//        fb.child("answer").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                answer = dataSnapshot.getValue().toString();
+//            }
+//
+//            @Override
+//            public void onCancelled(FirebaseError firebaseError) {
+//
+//            }
+//        });
+//        fb.child("a").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                ans_a = dataSnapshot.getValue().toString();
+//                txt_answer_a.setText(ans_a);
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(FirebaseError firebaseError) {
+//
+//            }
+//        });
+//        fb.child("b").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                ans_b = dataSnapshot.getValue().toString();
+//                txt_answer_b.setText(ans_b);
+//            }
+//
+//            @Override
+//            public void onCancelled(FirebaseError firebaseError) {
+//
+//            }
+//        });
+//        fb.child("c").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                ans_c = dataSnapshot.getValue().toString();
+//                txt_answer_c.setText(ans_c);
+//            }
+//
+//            @Override
+//            public void onCancelled(FirebaseError firebaseError) {
+//
+//            }
+//        });
+//        fb.child("d").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                ans_d = dataSnapshot.getValue().toString();
+//                txt_answer_d.setText(ans_d);
+//            }
+//
+//            @Override
+//            public void onCancelled(FirebaseError firebaseError) {
+//
+//            }
+//        });
 
-            }
-        });
-        fb.child("b").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ans_b = dataSnapshot.getValue().toString();
-                txt_answer_b.setText(ans_b);
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
-        fb.child("c").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ans_c = dataSnapshot.getValue().toString();
-                txt_answer_c.setText(ans_c);
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
-        fb.child("d").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ans_d = dataSnapshot.getValue().toString();
-                txt_answer_d.setText(ans_d);
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
 
         btn_answer_a.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 back_1_v.setVisibility(View.VISIBLE);
-                if(answer == ans_a){
+                if (answer == ans_a) {
                     back_1_true.setVisibility(View.VISIBLE);
-                }else if (answer == ans_b) {
+                } else if (answer == ans_b) {
                     back_2_true.setVisibility(View.VISIBLE);
-                }else if (answer == ans_c) {
+                } else if (answer == ans_c) {
                     back_3_true.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     back_4_true.setVisibility(View.VISIBLE);
                 }
 
-                Random r = new Random();
-                key_r = r.nextInt(4);
+
             }
         });
         btn_answer_b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 back_2_v.setVisibility(View.VISIBLE);
-                if(answer == ans_a){
+                if (answer == ans_a) {
                     back_1_true.setVisibility(View.VISIBLE);
-                }else if (answer == ans_b) {
+                } else if (answer == ans_b) {
                     back_2_true.setVisibility(View.VISIBLE);
-                }else if (answer == ans_c) {
+                } else if (answer == ans_c) {
                     back_3_true.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     back_4_true.setVisibility(View.VISIBLE);
                 }
-                Random r = new Random();
-                key_r = r.nextInt(4);
             }
         });
         btn_answer_c.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 back_3_v.setVisibility(View.VISIBLE);
-                if(answer == ans_a){
+                if (answer == ans_a) {
                     back_1_true.setVisibility(View.VISIBLE);
-                }else if (answer == ans_b) {
+                } else if (answer == ans_b) {
                     back_2_true.setVisibility(View.VISIBLE);
-                }else if (answer == ans_c) {
+                } else if (answer == ans_c) {
                     back_3_true.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     back_4_true.setVisibility(View.VISIBLE);
                 }
-                Random r = new Random();
-                key_r = r.nextInt(4);
             }
         });
         btn_answer_d.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 back_4_v.setVisibility(View.VISIBLE);
-                if(answer == ans_a){
+                if (answer == ans_a) {
                     back_1_true.setVisibility(View.VISIBLE);
-                }else if (answer == ans_b) {
+                } else if (answer == ans_b) {
                     back_2_true.setVisibility(View.VISIBLE);
-                }else if (answer == ans_c) {
+                } else if (answer == ans_c) {
                     back_3_true.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     back_4_true.setVisibility(View.VISIBLE);
                 }
-                Random r = new Random();
-                key_r = r.nextInt(4);
             }
         });
-
-
 
         b = new Bundle();
         ls = getSupportLoaderManager().initLoader(LOADER_ID, b, this);
@@ -241,7 +260,7 @@ public class OnePlayer_activity extends AppCompatActivity implements LoaderManag
 
     @Override
     public Loader<String> onCreateLoader(int id, Bundle args) {
-        ls = new Loader_fb(this);
+        ls = new Loader_fb(this, args);
         return ls;
     }
 
@@ -254,5 +273,7 @@ public class OnePlayer_activity extends AppCompatActivity implements LoaderManag
     public void onLoaderReset(Loader<String> loader) {
 
     }
+
+
 }
 
