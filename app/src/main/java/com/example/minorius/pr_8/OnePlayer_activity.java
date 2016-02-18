@@ -1,47 +1,46 @@
 package com.example.minorius.pr_8;
 
+import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.net.Uri;
 import android.os.Bundle;
 
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.minorius.pr_8.Fragment.Single_player;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class OnePlayer_activity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>{
+public class OnePlayer_activity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>, Communicator{
 
     private GS gs;
     private Single_player sp;
     private Firebase fb;
-
-    public static String answer;
-    public static String ans_a;
-    public static String ans_b;
-    public static String ans_c;
-    public static String ans_d;
 
     private ImageView btn_answer_a;
     private ImageView btn_answer_b;
     private ImageView btn_answer_c;
     private ImageView btn_answer_d;
 
-    private ImageView back_1_v;
-    private ImageView back_1_true;
-    private ImageView back_2_v;
-    private ImageView back_2_true;
-    private ImageView back_3_v;
-    private ImageView back_3_true;
-    private ImageView back_4_v;
-    private ImageView back_4_true;
-
     private String PATH = "https://minorius.firebaseio.com";
     public static String CATEGORY = "/math/";
+
+
+
 
 
     Bundle b;
@@ -54,93 +53,94 @@ public class OnePlayer_activity extends AppCompatActivity implements LoaderManag
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_one_player);
 
-        btn_answer_a = (ImageView) findViewById(R.id.btn_answer_a);
-        btn_answer_b = (ImageView) findViewById(R.id.btn_answer_b);
-        btn_answer_c = (ImageView) findViewById(R.id.btn_answer_c);
-        btn_answer_d = (ImageView) findViewById(R.id.btn_answer_d);
-
-        back_1_v = (ImageView) findViewById(R.id.back_1_v);
-        back_1_true = (ImageView) findViewById(R.id.back_1_true);
-        back_2_v = (ImageView) findViewById(R.id.back_2_v);
-        back_2_true = (ImageView) findViewById(R.id.back_2_true);
-        back_3_v = (ImageView) findViewById(R.id.back_3_v);
-        back_3_true = (ImageView) findViewById(R.id.back_3_true);
-        back_4_v = (ImageView) findViewById(R.id.back_4_v);
-        back_4_true = (ImageView) findViewById(R.id.back_4_true);
-
-        Firebase.setAndroidContext(getApplicationContext());
-        fb = new Firebase(PATH+CATEGORY);
-
         Random r = new Random();
-        sp = new Single_player(PATH, CATEGORY, r.nextInt(4));
+        sp = new Single_player();
+        sp.PATH = PATH;
+        sp.CATEGORY = CATEGORY;
+        sp.key_r  = r.nextInt(4);
 
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.add(R.id.buffer_fragment, sp).commit();
 
-
-
 //        btn_answer_a.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
+//                gs = new GS();
+//
 //                back_1_v.setVisibility(View.VISIBLE);
-//                if (answer == ans_a) {
+//
+//                if (gs.getAnswer() == gs.getA()) {
 //                    back_1_true.setVisibility(View.VISIBLE);
-//                } else if (answer == ans_b) {
+//                } else if (gs.getAnswer() == gs.getB()) {
 //                    back_2_true.setVisibility(View.VISIBLE);
-//                } else if (answer == ans_c) {
+//                } else if (gs.getAnswer() == gs.getC()) {
 //                    back_3_true.setVisibility(View.VISIBLE);
 //                } else {
 //                    back_4_true.setVisibility(View.VISIBLE);
 //                }
 //
-//
 //            }
 //        });
+//
 //        btn_answer_b.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
+//                gs = new GS();
+//
 //                back_2_v.setVisibility(View.VISIBLE);
-//                if (answer == ans_a) {
+//                if (gs.getAnswer() == gs.getA()) {
 //                    back_1_true.setVisibility(View.VISIBLE);
-//                } else if (answer == ans_b) {
+//                } else if (gs.getAnswer() == gs.getB()) {
 //                    back_2_true.setVisibility(View.VISIBLE);
-//                } else if (answer == ans_c) {
+//                } else if (gs.getAnswer() == gs.getC()) {
 //                    back_3_true.setVisibility(View.VISIBLE);
 //                } else {
 //                    back_4_true.setVisibility(View.VISIBLE);
 //                }
+//
 //            }
 //        });
+//
 //        btn_answer_c.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
+//                gs = new GS();
+//
 //                back_3_v.setVisibility(View.VISIBLE);
-//                if (answer == ans_a) {
+//                if (gs.getAnswer() == gs.getA()) {
 //                    back_1_true.setVisibility(View.VISIBLE);
-//                } else if (answer == ans_b) {
+//                } else if (gs.getAnswer() == gs.getB()) {
 //                    back_2_true.setVisibility(View.VISIBLE);
-//                } else if (answer == ans_c) {
+//                } else if (gs.getAnswer() == gs.getC()) {
 //                    back_3_true.setVisibility(View.VISIBLE);
 //                } else {
 //                    back_4_true.setVisibility(View.VISIBLE);
 //                }
+//
 //            }
 //        });
+//
 //        btn_answer_d.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
+//                gs = new GS();
+//
 //                back_4_v.setVisibility(View.VISIBLE);
-//                if (answer == ans_a) {
+//                if (gs.getAnswer() == gs.getA()) {
 //                    back_1_true.setVisibility(View.VISIBLE);
-//                } else if (answer == ans_b) {
+//                } else if (gs.getAnswer() == gs.getB()) {
 //                    back_2_true.setVisibility(View.VISIBLE);
-//                } else if (answer == ans_c) {
+//                } else if (gs.getAnswer() == gs.getC()) {
 //                    back_3_true.setVisibility(View.VISIBLE);
 //                } else {
 //                    back_4_true.setVisibility(View.VISIBLE);
 //                }
+//
 //            }
 //        });
+
+
+
 
         b = new Bundle();
         ls = getSupportLoaderManager().initLoader(LOADER_ID, b, this);
@@ -163,6 +163,17 @@ public class OnePlayer_activity extends AppCompatActivity implements LoaderManag
 
     }
 
+    @Override
+    public void fragmentCallBack(String a) {
 
+        Random r = new Random();
+        sp = new Single_player();
+        sp.PATH = PATH;
+        sp.CATEGORY = CATEGORY;
+        sp.key_r  = r.nextInt(4);
+
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.add(R.id.buffer_fragment, sp).commit();
+    }
 }
 

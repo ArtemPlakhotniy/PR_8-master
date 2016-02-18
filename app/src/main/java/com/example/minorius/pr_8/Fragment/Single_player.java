@@ -1,6 +1,10 @@
 package com.example.minorius.pr_8.Fragment;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -10,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.minorius.pr_8.Communicator;
 import com.example.minorius.pr_8.GS;
 import com.example.minorius.pr_8.R;
 import com.firebase.client.DataSnapshot;
@@ -17,7 +22,12 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-public class Single_player extends Fragment {
+import java.util.Random;
+
+public class Single_player extends Fragment{
+
+    private GS gs;
+    private Firebase fb;
 
     private TextView txt_question;
     private TextView txt_answer_a;
@@ -25,24 +35,32 @@ public class Single_player extends Fragment {
     private TextView txt_answer_c;
     private TextView txt_answer_d;
 
-    private GS gs;
-    private Firebase fb;
+    private ImageView btn_answer_a;
+    private ImageView btn_answer_b;
+    private ImageView btn_answer_c;
+    private ImageView btn_answer_d;
 
-    private String PATH;
-    private String CATEGORY;
-    private int key_r;
+//    private ImageView back_1_v;
+//    private ImageView back_1_true;
+//    private ImageView back_2_v;
+//    private ImageView back_2_true;
+//    private ImageView back_3_v;
+//    private ImageView back_3_true;
+//    private ImageView back_4_v;
+//    private ImageView back_4_true;
 
-    public Single_player(String PATH, String CATEGORY, int key_r) {
-        this.PATH = PATH;
-        this.CATEGORY = CATEGORY;
-        this.key_r = key_r;
-    }
+    public static String PATH;
+    public static String CATEGORY;
+    public static int key_r;
+
+    Communicator comm;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.prototype, container, false);
     }
+
 
     @Override
     public void onStart() {
@@ -54,6 +72,15 @@ public class Single_player extends Fragment {
         txt_answer_c = (TextView) getActivity().findViewById(R.id.txt_answer_c);
         txt_answer_d = (TextView) getActivity().findViewById(R.id.txt_answer_d);
 
+//        back_1_v = (ImageView) getActivity().findViewById(R.id.back_1_v);
+//        back_1_true = (ImageView) getActivity().findViewById(R.id.back_1_true);
+//        back_2_v = (ImageView) getActivity().findViewById(R.id.back_2_v);
+//        back_2_true = (ImageView) getActivity().findViewById(R.id.back_2_true);
+//        back_3_v = (ImageView) getActivity().findViewById(R.id.back_3_v);
+//        back_3_true = (ImageView) getActivity().findViewById(R.id.back_3_true);
+//        back_4_v = (ImageView) getActivity().findViewById(R.id.back_4_v);
+//        back_4_true = (ImageView) getActivity().findViewById(R.id.back_4_true);
+
         Firebase.setAndroidContext(getActivity().getApplicationContext());
         fb = new Firebase(PATH+CATEGORY+key_r);
 
@@ -62,9 +89,9 @@ public class Single_player extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 gs = new GS();
 
-                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                    switch (ds.getKey()){
+                    switch (ds.getKey()) {
                         case "a":
                             gs.setA(ds.getValue().toString());
                             break;
@@ -98,6 +125,46 @@ public class Single_player extends Fragment {
             @Override
             public void onCancelled(FirebaseError firebaseError) {
 
+            }
+        });
+            }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        comm = (Communicator) getActivity();
+
+        btn_answer_a = (ImageView) getActivity().findViewById(R.id.btn_answer_a);
+        btn_answer_b = (ImageView) getActivity().findViewById(R.id.btn_answer_b);
+        btn_answer_c = (ImageView) getActivity().findViewById(R.id.btn_answer_c);
+        btn_answer_d = (ImageView) getActivity().findViewById(R.id.btn_answer_d);
+
+        btn_answer_a.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                comm.fragmentCallBack("Click a");
+            }
+        });
+
+        btn_answer_b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                comm.fragmentCallBack("Click b");
+            }
+        });
+
+        btn_answer_c.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                comm.fragmentCallBack("Click c");
+            }
+        });
+
+        btn_answer_d.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                comm.fragmentCallBack("Click d");
             }
         });
     }

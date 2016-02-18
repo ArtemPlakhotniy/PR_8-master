@@ -15,9 +15,20 @@ public class GS {
     private String d;
     private String question;
 
+    private Integer count;
+
     public GS() {
 
     }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
 
     public String getQuestion() {
         return question;
