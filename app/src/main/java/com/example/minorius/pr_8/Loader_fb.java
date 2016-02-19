@@ -13,14 +13,9 @@ import com.firebase.client.ValueEventListener;
 
 public class Loader_fb extends AsyncTaskLoader<String> {
 
-    public static String KEY = "https://minorius.firebaseio.com/math/";
-
-    GS gs;
-
     public Loader_fb(Context context, Bundle args) {
         super(context);
     }
-
 
     @Override
     public String loadInBackground() {
@@ -28,9 +23,6 @@ public class Loader_fb extends AsyncTaskLoader<String> {
         return null;
 
     }
-
-
-
 
     @Override
     public void forceLoad() {
