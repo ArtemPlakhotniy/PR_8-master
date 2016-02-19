@@ -2,9 +2,6 @@ package com.example.minorius.pr_8;
 
 import android.widget.Toast;
 
-/**
- * Created by Minorius on 16.02.2016.
- */
 public class GS {
 
 
@@ -15,18 +12,8 @@ public class GS {
     private String d;
     private String question;
 
-    private Integer count;
-
     public GS() {
 
-    }
-
-    public Integer getCount() {
-        return count;
-    }
-
-    public void setCount(Integer count) {
-        this.count = count;
     }
 
 
