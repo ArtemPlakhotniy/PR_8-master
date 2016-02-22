@@ -46,19 +46,8 @@ public class MainActivity extends AppCompatActivity {
                 back_4.setVisibility(View.INVISIBLE);
                 back_5.setVisibility(View.INVISIBLE);
 
-                Intent i = new Intent(getApplicationContext(), OnePlayer_activity.class);
+                Intent i = new Intent(getApplicationContext(), Category_activity.class);
                 startActivity(i);
-            }
-        });
-
-        main_2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                back_1.setVisibility(View.INVISIBLE);
-                back_2.setVisibility(View.VISIBLE);
-                back_3.setVisibility(View.INVISIBLE);
-                back_4.setVisibility(View.INVISIBLE);
-                back_5.setVisibility(View.INVISIBLE);
             }
         });
 

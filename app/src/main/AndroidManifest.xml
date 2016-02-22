@@ -18,6 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".OnePlayer_activity"/>
+        <activity android:name=".Category_activity"/>
     </application>
 
 </manifest>
