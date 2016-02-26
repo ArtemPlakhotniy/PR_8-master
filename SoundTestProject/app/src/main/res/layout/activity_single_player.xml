@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.rbezliudko.soundtestproject.SinglePlayerActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_menu"
+            android:layout_width="140sp"
+            android:layout_height="90sp"
+            android:text="@string/menu"/>
+
+        <Button
+            android:id="@+id/button_LF1"
+            android:layout_marginLeft="250sp"
+            android:layout_width="140sp"
+            android:layout_height="90sp"
+            android:text="@string/lf1"/>
+
+        <Button
+            android:id="@+id/button_LF2"
+            android:layout_width="140sp"
+            android:layout_height="90sp"
+            android:text="@string/lf2"/>
+
+        <Button
+            android:id="@+id/button_LF3"
+            android:layout_width="140sp"
+            android:layout_height="90sp"
+            android:text="@string/lf3"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="400sp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_ansA"
+            android:layout_width="580sp"
+            android:layout_height="100sp"
+            android:text="@string/answerA"/>
+
+        <Button
+            android:id="@+id/button_ansB"
+            android:layout_width="580sp"
+            android:layout_height="100sp"
+            android:text="@string/answerB"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_ansC"
+            android:layout_width="580sp"
+            android:layout_height="100sp"
+            android:text="@string/answerC"/>
+
+        <Button
+            android:id="@+id/button_ansD"
+            android:layout_width="580sp"
+            android:layout_height="100sp"
+            android:text="@string/answerD"/>
+
+    </LinearLayout>
+
+</LinearLayout>

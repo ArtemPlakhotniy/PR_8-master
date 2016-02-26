@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">SoundTestProject</string>
+    <!-- Buttons -->
+    <string name="single_player">Single Player</string>
+    <string name="multiplayer">Multiplayer</string>
+    <string name="options">Options</string>
+    <string name="about">About</string>
+    <string name="quit">Quit</string>
+    <!-- -->
+    <string name="menu">Menu</string>
+    <string name="lf1">50:50</string>
+    <string name="lf2">Phone</string>
+    <string name="lf3">Audience</string>
+    <string name="answerA">Answer A</string>
+    <string name="answerB">Answer B</string>
+    <string name="answerC">Answer C</string>
+    <string name="answerD">Answer D</string>
+</resources>
