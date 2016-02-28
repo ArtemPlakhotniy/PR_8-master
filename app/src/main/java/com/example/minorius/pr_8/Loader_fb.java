@@ -11,6 +11,9 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class Loader_fb extends AsyncTaskLoader<String> {
 
     public Loader_fb(Context context, Bundle args) {
@@ -19,9 +22,7 @@ public class Loader_fb extends AsyncTaskLoader<String> {
 
     @Override
     public String loadInBackground() {
-
         return null;
-
     }
 
     @Override

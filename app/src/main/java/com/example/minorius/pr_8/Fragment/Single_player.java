@@ -38,13 +38,9 @@ public class Single_player extends Fragment{
     private ImageView btn_answer_c;
     private ImageView btn_answer_d;
 
-    private ImageView back_1_v;
     private ImageView back_1_true;
-    private ImageView back_2_v;
     private ImageView back_2_true;
-    private ImageView back_3_v;
     private ImageView back_3_true;
-    private ImageView back_4_v;
     private ImageView back_4_true;
 
     Communicator comm;
@@ -61,20 +57,15 @@ public class Single_player extends Fragment{
 
         comm = (Communicator) getActivity();
 
-        back_1_v = (ImageView) getActivity().findViewById(R.id.back_1_v);
-        back_2_v = (ImageView) getActivity().findViewById(R.id.back_2_v);
-        back_3_v = (ImageView) getActivity().findViewById(R.id.back_3_v);
-        back_4_v = (ImageView) getActivity().findViewById(R.id.back_4_v);
+        btn_answer_a = (ImageView) getActivity().findViewById(R.id.btn_answer_a);
+        btn_answer_b = (ImageView) getActivity().findViewById(R.id.btn_answer_b);
+        btn_answer_c = (ImageView) getActivity().findViewById(R.id.btn_answer_c);
+        btn_answer_d = (ImageView) getActivity().findViewById(R.id.btn_answer_d);
 
         back_1_true = (ImageView) getActivity().findViewById(R.id.back_1_true);
         back_2_true = (ImageView) getActivity().findViewById(R.id.back_2_true);
         back_3_true = (ImageView) getActivity().findViewById(R.id.back_3_true);
         back_4_true = (ImageView) getActivity().findViewById(R.id.back_4_true);
-
-        btn_answer_a = (ImageView) getActivity().findViewById(R.id.btn_answer_a);
-        btn_answer_b = (ImageView) getActivity().findViewById(R.id.btn_answer_b);
-        btn_answer_c = (ImageView) getActivity().findViewById(R.id.btn_answer_c);
-        btn_answer_d = (ImageView) getActivity().findViewById(R.id.btn_answer_d);
 
         txt_question = (TextView) getActivity().findViewById(R.id.txt_question);
         txt_answer_a = (TextView) getActivity().findViewById(R.id.txt_answer_a);
@@ -94,8 +85,6 @@ public class Single_player extends Fragment{
             @Override
             public void onClick(View v) {
 
-                back_1_v.setVisibility(View.VISIBLE);
-
                 if (OnePlayer_activity.gs.getAnswer().equals(OnePlayer_activity.gs.getA())) {
                     back_1_true.setVisibility(View.VISIBLE);
                 } else if (OnePlayer_activity.gs.getAnswer().equals(OnePlayer_activity.gs.getB())) {
@@ -113,8 +102,6 @@ public class Single_player extends Fragment{
         btn_answer_b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                back_2_v.setVisibility(View.VISIBLE);
 
                 if (OnePlayer_activity.gs.getAnswer().equals(OnePlayer_activity.gs.getA())) {
                     back_1_true.setVisibility(View.VISIBLE);
@@ -134,8 +121,6 @@ public class Single_player extends Fragment{
             @Override
             public void onClick(View v) {
 
-                back_3_v.setVisibility(View.VISIBLE);
-
                 if (OnePlayer_activity.gs.getAnswer().equals(OnePlayer_activity.gs.getA())) {
                     back_1_true.setVisibility(View.VISIBLE);
                 } else if (OnePlayer_activity.gs.getAnswer().equals(OnePlayer_activity.gs.getB())) {
@@ -153,8 +138,6 @@ public class Single_player extends Fragment{
         btn_answer_d.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                back_4_v.setVisibility(View.VISIBLE);
 
                 if (OnePlayer_activity.gs.getAnswer().equals(OnePlayer_activity.gs.getA())) {
                     back_1_true.setVisibility(View.VISIBLE);

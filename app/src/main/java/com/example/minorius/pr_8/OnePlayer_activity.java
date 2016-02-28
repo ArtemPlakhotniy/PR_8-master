@@ -1,6 +1,7 @@
 package com.example.minorius.pr_8;
 
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -21,6 +22,8 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
 import java.sql.Time;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -30,9 +33,10 @@ public class OnePlayer_activity extends AppCompatActivity implements LoaderManag
     static public GS gs;
     private Single_player sp;
     private Firebase fb;
+    private Category_activity ca;
 
-    private String PATH = "https://minorius.firebaseio.com";
-    public static String CATEGORY = "/math/";
+    public static String PATH = "https://minorius.firebaseio.com";
+    public static String CATEGORY;
 
     private TextView txt_true;
     private TextView txt_false;
@@ -41,15 +45,11 @@ public class OnePlayer_activity extends AppCompatActivity implements LoaderManag
 
     private TextView txt_loading;
     private TextView txt_timer;
-    public int count;
+    public long count;
+    public int num;
     public Integer timer = 60;
 
-
-
-
-
-
-
+    private Map<String, Long> number_of_question;
 
     Bundle b;
     Loader<String> ls;
@@ -66,24 +66,60 @@ public class OnePlayer_activity extends AppCompatActivity implements LoaderManag
         txt_loading = (TextView) findViewById(R.id.txt_loading);
         txt_timer = (TextView) findViewById(R.id.txt_timer);
 
+        Random r = new Random();
+        int random_subjects = r.nextInt((ca.al_to_next.size()));
+
+        switch (""+ca.al_to_next.get(random_subjects).getText()){
+            case "Математика":
+                CATEGORY = "/math/";
+                break;
+            case "Хімія":
+                CATEGORY = "/chem/";
+                break;
+            case "Географія":
+                CATEGORY = "/geo/";
+                break;
+            case "Література":
+                CATEGORY = "/Lit/";
+                break;
+            case "Фізика":
+                CATEGORY = "/phis/";
+                break;
+            case "Астрономія":
+                CATEGORY = "/astr/";
+                break;
+        }
+
+        number_of_question = new LinkedHashMap<>();
+
 
         Firebase.setAndroidContext(getApplicationContext());
-        fb = new Firebase(PATH+CATEGORY);
+        fb = new Firebase(PATH);
 
         fb.addValueEventListener(new ValueEventListener() {
             @Override
 
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                for(DataSnapshot ds : dataSnapshot.getChildren()){
-                    count++;
+                //Добавляем колличество вопросов с бд
+                for (DataSnapshot ds: dataSnapshot.getChildren()){
+                    number_of_question.put(ds.getKey(), ds.getChildrenCount());
                 }
+
+                //Проверяем какая категория выбрана
+                for (String key: number_of_question.keySet()){
+                    if(("/" + key +"/").equals(CATEGORY)){
+                        count = number_of_question.get(key);
+                    }
+                }
+
+                num = (int) count;
 
                 Random r = new Random();
                 sp = new Single_player();
 
                 Firebase.setAndroidContext(getApplicationContext());
-                fb = new Firebase(PATH+CATEGORY+r.nextInt(count));
+                fb = new Firebase(PATH + CATEGORY + r.nextInt(num));
 
                 fb.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -112,7 +148,6 @@ public class OnePlayer_activity extends AppCompatActivity implements LoaderManag
                                 case "question":
                                     gs.setQuestion(ds.getValue().toString());
                                     break;
-
                             }
                         }
 
@@ -121,7 +156,7 @@ public class OnePlayer_activity extends AppCompatActivity implements LoaderManag
                         FragmentTransaction ft = getFragmentManager().beginTransaction();
                         ft.add(R.id.buffer_fragment, sp).commit();
 
-                        new CountDownTimer(60000, 1000){
+                        new CountDownTimer(60000, 1000) {
 
                             @Override
                             public void onTick(long millisUntilFinished) {
@@ -140,12 +175,10 @@ public class OnePlayer_activity extends AppCompatActivity implements LoaderManag
 
                             }
                         }.start();
-
                     }
 
                     @Override
                     public void onCancelled(FirebaseError firebaseError) {
-
                     }
                 });
             }
@@ -156,10 +189,9 @@ public class OnePlayer_activity extends AppCompatActivity implements LoaderManag
 
             }
         });
-
-
         b = new Bundle();
         ls = getSupportLoaderManager().initLoader(LOADER_ID, b, this);
+
 
     }
 
@@ -193,8 +225,41 @@ public class OnePlayer_activity extends AppCompatActivity implements LoaderManag
             txt_false.setText(""+false_answer);
         }
 
-        fb = new Firebase(PATH+CATEGORY+r.nextInt(count));
+        Random random = new Random();
+        int random_subjects = random.nextInt((ca.al_to_next.size()));
+
+        switch (""+ca.al_to_next.get(random_subjects).getText()){
+            case "Математика":
+                CATEGORY = "/math/";
+                break;
+            case "Хімія":
+                CATEGORY = "/chem/";
+                break;
+            case "Географія":
+                CATEGORY = "/geo/";
+                break;
+            case "Література":
+                CATEGORY = "/Lit/";
+                break;
+            case "Фізика":
+                CATEGORY = "/phis/";
+                break;
+            case "Астрономія":
+                CATEGORY = "/astr/";
+                break;
+        }
+
+        for (String key: number_of_question.keySet()){
+            if(("/" + key +"/").equals(CATEGORY)){
+                count = number_of_question.get(key);
+            }
+        }
+
+        num = (int) count;
+
+        fb = new Firebase(PATH+CATEGORY+r.nextInt(num));
         fb.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 gs = new GS();

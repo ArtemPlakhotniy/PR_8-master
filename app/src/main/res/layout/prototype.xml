@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:text="question"
+                android:text="Loading..."
                 android:textColor="@android:color/white"/>
         </RelativeLayout>
 
@@ -51,15 +51,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/btn_answer_a"
-                        android:src="@drawable/answer_a"/>
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:id="@+id/back_1_v"
-                        android:src="@drawable/board_on_main_activity_back_orange"
-                        android:visibility="invisible"/>
+                        android:src="@drawable/on_pressed_a"/>
+
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -72,7 +65,7 @@
                         android:id="@+id/txt_answer_a"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="null"
+                        android:text=""
                         android:textColor="@android:color/white"
                         android:layout_centerVertical="true"
                         android:layout_centerHorizontal="true"/>
@@ -87,15 +80,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/btn_answer_b"
-                        android:src="@drawable/answer_b"/>
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:id="@+id/back_2_v"
-                        android:src="@drawable/board_on_main_activity_back_orange"
-                        android:visibility="invisible"/>
+                        android:src="@drawable/on_pressed_b"/>
+
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -108,7 +94,7 @@
                         android:id="@+id/txt_answer_b"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="null"
+                        android:text=""
                         android:textColor="@android:color/white"
                         android:layout_centerVertical="true"
                         android:layout_centerHorizontal="true"/>
@@ -123,15 +109,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/btn_answer_c"
-                        android:src="@drawable/answer_c"/>
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:id="@+id/back_3_v"
-                        android:src="@drawable/board_on_main_activity_back_orange"
-                        android:visibility="invisible"/>
+                        android:src="@drawable/on_pressed_c"/>
+
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -144,7 +123,7 @@
                         android:id="@+id/txt_answer_c"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="null"
+                        android:text=""
                         android:textColor="@android:color/white"
                         android:layout_centerVertical="true"
                         android:layout_centerHorizontal="true"/>
@@ -160,15 +139,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/btn_answer_d"
-                        android:src="@drawable/answer_d"/>
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:id="@+id/back_4_v"
-                        android:src="@drawable/board_on_main_activity_back_orange"
-                        android:visibility="invisible"/>
+                        android:src="@drawable/on_pressed_d"/>
+
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -181,7 +153,7 @@
                         android:id="@+id/txt_answer_d"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="null"
+                        android:text=""
                         android:textColor="@android:color/white"
                         android:layout_centerVertical="true"
                         android:layout_centerHorizontal="true"/>
