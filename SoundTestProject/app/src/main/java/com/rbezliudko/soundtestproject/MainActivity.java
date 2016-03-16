@@ -1,13 +1,10 @@
 package com.rbezliudko.soundtestproject;
 
-import android.content.Context;
 import android.content.Intent;
-import android.media.AudioManager;
+import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
-import android.media.SoundPool;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -20,14 +17,7 @@ public class MainActivity extends AppCompatActivity{
     private Button optionsButton;
     private Button aboutButton;
     private Button quitButton;
-
-    final String LOG_TAG = "myLogs";
-
-    MediaPlayer mediaPlayer;
-    AudioManager am;
-    MediaPlayer mPlayer;
-
-    Context context;
+    private AssetFileDescriptor descriptor = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +30,18 @@ public class MainActivity extends AppCompatActivity{
         aboutButton = (Button) findViewById(R.id.button_about);
         quitButton = (Button) findViewById(R.id.button_quit);
 
-        final int MAX_STREAMS = 5;
-        final SoundPool sp = new SoundPool(MAX_STREAMS, AudioManager.STREAM_MUSIC, 0);
+        final String soundPack = getString(R.string.sound_pack);
+        GlobalAudioManager.soundPack = soundPack;
+        final int questionNumber = Integer.parseInt(getString(R.string.question_number));
+        GlobalAudioManager.qNumber = questionNumber;
 
-        mPlayer = MediaPlayer.create(this, R.raw.theme);
-        mPlayer.setLooping(true);
-        mPlayer.start();
+        try {
+            descriptor = getAssets().openFd(soundPack + "/theme.mp3");
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        GlobalAudioManager.playMusic(descriptor);
 
         final Intent singlePlayerIntent = new Intent(MainActivity.this, SinglePlayerActivity.class);
 
@@ -53,12 +49,17 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View w){
                 try {
-                    int pingSound = sp.load(getAssets().openFd("ping1.mp3"), 1);
-                    Log.d(LOG_TAG, "pingSound = " + pingSound);
-                    sp.play(pingSound, 1, 1, 0, 0, 1);
+                    descriptor = getAssets().openFd(soundPack + "/ping1.mp3");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                GlobalAudioManager.playSound(descriptor);
+                /*try {
+                    Thread.sleep(1000);
+                } catch (Exception e) {
+                  e.printStackTrace();
+                }*/
+                GlobalAudioManager.releaseAll();
                 MainActivity.this.startActivity(singlePlayerIntent);
             }
         });
@@ -67,12 +68,11 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 try {
-                    int pingSound = sp.load(getAssets().openFd("ping1.mp3"), 1);
-                    Log.d(LOG_TAG, "pingSound = " + pingSound);
-                    sp.play(pingSound, 1, 1, 0, 0, 1);
+                    descriptor = getAssets().openFd(soundPack + "/ping1.mp3");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                GlobalAudioManager.playSound(descriptor);
             }
         });
 
@@ -80,12 +80,11 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 try {
-                    int pingSound = sp.load(getAssets().openFd("ping1.mp3"), 1);
-                    Log.d(LOG_TAG, "pingSound = " + pingSound);
-                    sp.play(pingSound, 1, 1, 0, 0, 1);
+                    descriptor = getAssets().openFd(soundPack + "/ping1.mp3");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                GlobalAudioManager.playSound(descriptor);
             }
         });
 
@@ -93,12 +92,11 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 try {
-                    int pingSound = sp.load(getAssets().openFd("ping1.mp3"), 1);
-                    Log.d(LOG_TAG, "pingSound = " + pingSound);
-                    sp.play(pingSound, 1, 1, 0, 0, 1);
+                    descriptor = getAssets().openFd(soundPack + "/ping1.mp3");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                GlobalAudioManager.playSound(descriptor);
             }
         });
 
@@ -106,14 +104,12 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View w){
                 try {
-                    int pingSound = sp.load(getAssets().openFd("ping1.mp3"), 1);
-                    Log.d(LOG_TAG, "pingSound = " + pingSound);
-                    sp.play(pingSound, 1, 1, 0, 0, 1);
+                    descriptor = getAssets().openFd(soundPack + "/ping1.mp3");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                mPlayer.stop();
-                mPlayer = releaseMP(mPlayer);
+                GlobalAudioManager.playSound(descriptor);
+                GlobalAudioManager.releaseAll();
                 finish();
             }
         });
@@ -121,25 +117,11 @@ public class MainActivity extends AppCompatActivity{
 
     protected void onDestroy() {
         super.onDestroy();
-        mPlayer.stop();
-        mPlayer = releaseMP(mPlayer);
+        GlobalAudioManager.releaseAll();
     }
 
     protected void onStop() {
         super.onStop();
-        mPlayer.stop();
-        mPlayer = releaseMP(mPlayer);
-    }
-
-    private MediaPlayer releaseMP(MediaPlayer mediaPlayer) {
-        if (mediaPlayer != null) {
-            try {
-                mediaPlayer.release();
-                mediaPlayer = null;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return mediaPlayer;
+        GlobalAudioManager.releaseAll();
     }
 }

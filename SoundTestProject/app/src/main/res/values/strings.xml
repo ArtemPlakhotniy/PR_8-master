@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">SoundTestProject</string>
+    <string name="app_name">SoundTestProject</string>/
+    <!--Sound scheme-->
+    <string name="sound_pack">classic</string>
+    <string name="question_number">1</string>
     <!-- Buttons -->
     <string name="single_player">Single Player</string>
     <string name="multiplayer">Multiplayer</string>

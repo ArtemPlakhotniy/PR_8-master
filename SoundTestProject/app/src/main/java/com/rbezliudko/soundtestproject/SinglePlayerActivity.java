@@ -1,12 +1,11 @@
 package com.rbezliudko.soundtestproject;
 
+import android.content.res.AssetFileDescriptor;
 import android.graphics.Color;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -19,10 +18,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
     private Button answerBButton;
     private Button answerCButton;
     private Button answerDButton;
-
-    MediaPlayer mPlayer;
-
-    final String LOG_TAG = "myLogs";
+    private AssetFileDescriptor descriptor = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,47 +31,144 @@ public class SinglePlayerActivity extends AppCompatActivity {
         answerCButton = (Button) findViewById(R.id.button_ansC);
         answerDButton = (Button) findViewById(R.id.button_ansD);
 
-        final int MAX_STREAMS = 5;
-        final SoundPool sp = new SoundPool(MAX_STREAMS, AudioManager.STREAM_MUSIC, 0);
+        try {
+            if (GlobalAudioManager.qNumber < 6) {
+                descriptor = getAssets().openFd(GlobalAudioManager.soundPack + "/question_1.mp3");
+            } else {
+                descriptor = getAssets().openFd(GlobalAudioManager.soundPack + "/question_"
+                        + GlobalAudioManager.qNumber + ".mp3");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        GlobalAudioManager.playMusic(descriptor);
 
         fiftyFiftyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    int fiftyFiftySound = sp.load(getAssets().openFd("fifty_fifty.mp3"), 1);
-                    Log.d(LOG_TAG, "fiftyFiftySound = " + fiftyFiftySound);
-                    sp.play(fiftyFiftySound, 1, 1, 0, 0, 1);
+                    descriptor = getAssets().openFd(GlobalAudioManager.soundPack + "/fifty_fifty.mp3");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                GlobalAudioManager.playSound(descriptor);
             }
         });
 
         answerAButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPlayer = MediaPlayer.create(SinglePlayerActivity.this, R.raw.final_6);
-                mPlayer.start();
+                try {
+                    if (GlobalAudioManager.qNumber < 6) {
+                        descriptor = getAssets().openFd(GlobalAudioManager.soundPack
+                                + "/final_1.mp3");
+                    } else if (GlobalAudioManager.qNumber < 11) {
+                        descriptor = getAssets().openFd(GlobalAudioManager.soundPack
+                                + "/final_" + GlobalAudioManager.qNumber + ".mp3");
+                    } else {
+                        descriptor = getAssets().openFd(GlobalAudioManager.soundPack
+                                + "/final_" + (GlobalAudioManager.qNumber - 5) + ".mp3");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                GlobalAudioManager.playMusic(descriptor);
                 answerAButton.setBackgroundColor(Color.YELLOW);
+                answerAButton.refreshDrawableState();
+                answerAButton.setEnabled(false);
+                answerBButton.setEnabled(false);
+                answerCButton.setEnabled(false);
+                answerDButton.setEnabled(false);
+                try {
+                    Thread.sleep(5000);
+                    if (GlobalAudioManager.qNumber < 5) {
+                        descriptor = getAssets().openFd(GlobalAudioManager.soundPack
+                                + "/correct_1.mp3");
+                    } else {
+                        descriptor = getAssets().openFd(GlobalAudioManager.soundPack
+                                + "/correct_" + GlobalAudioManager.qNumber + ".mp3");
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                answerAButton.setBackgroundColor(Color.GREEN);
+                GlobalAudioManager.playMusic(descriptor);
+            }
+        });
+
+        answerBButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    if (GlobalAudioManager.qNumber == 1) {
+                        descriptor = getAssets().openFd(GlobalAudioManager.soundPack
+                                + "/final_1.mp3");
+                    } else if (GlobalAudioManager.qNumber < 11) {
+                        descriptor = getAssets().openFd(GlobalAudioManager.soundPack
+                                + "/final_" + GlobalAudioManager.qNumber + ".mp3");
+                    } else {
+                        descriptor = getAssets().openFd(GlobalAudioManager.soundPack
+                                + "/final_" + (GlobalAudioManager.qNumber - 5) + ".mp3");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                GlobalAudioManager.playMusic(descriptor);
+                answerBButton.setBackgroundColor(Color.YELLOW);
                 answerAButton.setEnabled(false);
                 answerBButton.setEnabled(false);
                 answerCButton.setEnabled(false);
                 answerDButton.setEnabled(false);
             }
         });
-    }
 
-
-
-    private MediaPlayer releaseMP(MediaPlayer mediaPlayer) {
-        if (mediaPlayer != null) {
-            try {
-                mediaPlayer.release();
-                mediaPlayer = null;
-            } catch (Exception e) {
-                e.printStackTrace();
+        answerCButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    if (GlobalAudioManager.qNumber < 11) {
+                        descriptor = getAssets().openFd(GlobalAudioManager.soundPack
+                                + "/final_" + GlobalAudioManager.qNumber + ".mp3");
+                    } else {
+                        descriptor = getAssets().openFd(GlobalAudioManager.soundPack
+                                + "/final_" + (GlobalAudioManager.qNumber - 5) + ".mp3");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                GlobalAudioManager.playMusic(descriptor);
+                answerCButton.setBackgroundColor(Color.YELLOW);
+                answerAButton.setEnabled(false);
+                answerBButton.setEnabled(false);
+                answerCButton.setEnabled(false);
+                answerDButton.setEnabled(false);
             }
-        }
-        return mediaPlayer;
+        });
+
+        answerDButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    if (GlobalAudioManager.qNumber == 1) {
+                        descriptor = getAssets().openFd(GlobalAudioManager.soundPack
+                                + "/final_1.mp3");
+                    } else if (GlobalAudioManager.qNumber < 11) {
+                        descriptor = getAssets().openFd(GlobalAudioManager.soundPack
+                                + "/final_" + GlobalAudioManager.qNumber + ".mp3");
+                    } else {
+                        descriptor = getAssets().openFd(GlobalAudioManager.soundPack
+                                + "/final_" + (GlobalAudioManager.qNumber - 5) + ".mp3");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                GlobalAudioManager.playMusic(descriptor);
+                answerDButton.setBackgroundColor(Color.YELLOW);
+                answerAButton.setEnabled(false);
+                answerBButton.setEnabled(false);
+                answerCButton.setEnabled(false);
+                answerDButton.setEnabled(false);
+            }
+        });
     }
 }
